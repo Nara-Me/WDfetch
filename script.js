@@ -68,7 +68,6 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
         console.log("its right");
         artwork.innerHTML = "";
         if (departmentFilter != "All") {
-          console.log(departmentKey);
           response = await fetch(`${apiUrl}search?departmentId=${departmentFilter}&title=true&hasImages=true&q=${search}`);
         } else {
           response = await fetch(apiUrlSearch `&q=` + search);
@@ -78,7 +77,7 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
         console.log(departmentKey);
         artwork.innerHTML = "";
         if (departmentFilter != "All") {
-          response = await fetch(`${apiUrlObj}?departmentId=${departmentFilter}`);
+          response = await fetch(`${apiUrlObj}?departmentIds=${departmentFilter}`);
         } else {
           response = await fetch(apiUrlObj);
         }
