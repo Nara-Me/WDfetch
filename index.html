@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metropolitan Museum</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Zen+Kurenaido"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Metropolitan Museum API</h1>
+
+      <div id="sorting-options">
+        <label>Sort By:</label>
+        <select id="sort-select">
+          <option value="no">Don't sort</option>
+          <option value="title">Title (!-A-Z)</option>
+          <option value="title-reverse">Title (Z-A-!)</option>
+          <option value="date">Date (Asc moderately)</option>
+          <option value="date-reverse">Date (Desc moderately)</option>
+        </select>
+        <button value="filter" onclick="sortArtworks(this.value)">Sort</button>
+      </div>
+
+      <div id="filter-options">
+        <label>Filter By Department:</label>
+        <select id="filter-department">
+          <option value="All">All Departments</option>
+          <option value="1">American Wing</option>
+          <option value="3">Ancient Near Eastern Art</option>
+          <option value="4">Arms and Armor</option>
+          <option value="6">Asian Art</option>
+          <option value="8">Costume Institute</option>
+          <option value="7">Cloisters</option>
+          <option value="9">Drawings and Prints</option>
+          <option value="10">Egyptian Art</option>
+          <option value="11">European Paintings</option>
+          <option value="12">European Sculpture and Decorative Arts</option>
+          <option value="13">Greek and Roman Art</option>
+          <option value="14">Islamic Art</option>
+          <option value="16">Libraries</option>
+          <option value="17">Medieval Art</option>
+          <option value="5">Michael C. Rockefeller Wing</option>
+          <option value="18">Musical Instruments</option>
+          <option value="19">Photographs</option>
+          <option value="15">Robert Lehman Collection</option>
+        </select>
+        <button onclick="filterArtworks()">Filter</button>
+      </div>
+    </header>
+
+    <!--<form>
+      <div id="filter-department">
+        <label>Filter By Department:</label><br>
+        <input type="checkbox" value="All" />
+        <label>All Departments</label><br>
+        <input type="checkbox" value="1" />
+        <label>American Wing</label>
+        <input type="checkbox" value="3" />
+        <label>Ancient Near Eastern Art</label>
+        <input type="checkbox" value="4" />
+        <label>Arms and Armor</label>
+        <input type="checkbox" value="6" />
+        <label>Asian Art</label>
+        <input type="checkbox" value="8" />
+        <label>Costume Institute</label>
+        <input type="checkbox" value="7" />
+        <label>Cloisters</label>
+        <input type="checkbox" value="9" />
+        <label>Drawings and Prints</label>
+        <input type="checkbox" value="10" />
+        <label>Egyptian Art</label>
+        <input type="checkbox" value="11" />
+        <label>European Paintings</label>
+        <input type="checkbox" value="12" />
+        <label>European Sculpture and Decorative Arts</label>
+        <input type="checkbox" value="13" />
+        <label>Greek and Roman Art</label>
+        <input type="checkbox" value="14" />
+        <label>Islamic Art</label>
+        <input type="checkbox" value="16" />
+        <label>Libraries</label>
+        <input type="checkbox" value="17" />
+        <label>Medieval Art</label>
+        <input type="checkbox" value="5" />
+        <label>Michael C. Rockefeller Wing</label>
+        <input type="checkbox" value="21" />
+        <label>Modern and Contemporary Art</label>
+        <input type="checkbox" value="18" />
+        <label>Musical Instruments</label>
+        <input type="checkbox" value="19" />
+        <label>Photographs</label>
+        <input type="checkbox" value="15" />
+        <label>Robert Lehman Collection</label>
+      </div>
+        <button onclick="filterArtworks()">Filter</button>
+    </form>-->
+
+    <div id="loading-screen">
+      <p>Loading...</p>
+    </div>
+
+    <div id="total"></div>
+    <div id="artworks" class="masonry-container"></div>
+
+    <div id="popup" class="popup">
+      <div id="popup-content" class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span> <!--x button-->
+        <div class="popup-grid" id="popup-image"></div>
+        <div class="popup-grid">
+          <h2 id="popup-title"></h2>
+          <p id="popup-artist"></p>
+          <p id="popup-date"></p>
+          <p id="popup-department"></p>
+          <p id="popup-medium"></p>
+          <p id="popup-culture"></p>
+          <p id="popup-country"></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="show-more">
+      <button onclick="fetchArtworks()">Show more</button>
+    </div>
+  </body>
+</html>
