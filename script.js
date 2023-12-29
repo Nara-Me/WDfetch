@@ -1,19 +1,19 @@
 console.clear();
 //Metropolitan Museum API
-const apiUrl =
+const apiUrlObj =
   "https://collectionapi.metmuseum.org/public/collection/v1/objects";
 
+const apiUrl =
+  "https://collectionapi.metmuseum.org/public/collection/v1/";
+
 const apiUrlSearch =
-  "https://collectionapi.metmuseum.org/public/collection/v1/search?q=";
+  "https://collectionapi.metmuseum.org/public/collection/v1/search?title=true&hasImages=true";
 
 let MaxnumDisplayed = 24; //36 //48
 
-let shuffledObjectIDs;
+let shuffledObjectIDs, defaultShuffle = 1, lastShuffleValue = "", artworksCount = 0;
 
-let defaultShuffle = 1, lastShuffleValue = "";
-
-//count numbers of artworks gone through (with and without images)
-let artworksCount = 0;
+let departmentKey = "", searchKey = "";
 
 //Total number of artworks found
 const totalElement = document.createElement("p");
@@ -63,25 +63,39 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
     let response = null;
     try {
       const artwork = document.getElementById("artworks");
-      //department filter if provided
-      if (departmentFilter) {
+      //department and search filter if provided
+      if (departmentFilter && search) {
+        console.log("its right");
         artwork.innerHTML = "";
         if (departmentFilter != "All") {
-          response = await fetch(`${apiUrl}?departmentIds=${departmentFilter}`);
-        } else {response = await fetch(apiUrl);}
-
+          console.log(departmentKey);
+          response = await fetch(`${apiUrl}search?departmentId=${departmentFilter}&title=true&hasImages=true&q=${search}`);
+        } else {
+          response = await fetch(apiUrlSearch `&q=` + search);
+        }
+      //department  filter if provided
+      } else if (departmentFilter) {
+        console.log(departmentKey);
+        artwork.innerHTML = "";
+        if (departmentFilter != "All") {
+          response = await fetch(`${apiUrlObj}?departmentId=${departmentFilter}`);
+        } else {
+          response = await fetch(apiUrlObj);
+        }
       //search filter if provided
       } else if (search) {
-        console.log("Mamma Mia");
+        console.log(search);
         artwork.innerHTML = "";
-        response = await fetch(apiUrlSearch + search);
+        response = await fetch(`${apiUrlSearch}&q=${search}`);
 
       //no filter
       } else {
-        response = await fetch(apiUrl);
+        response = await fetch(apiUrlObj);
       }
 
       const data = await response.json();
+
+      //shows total number of artworks found with the especifications
       if (load) {
         totalElement.innerHTML = `Total artworks found: ${data.total}`;
       }
@@ -111,11 +125,9 @@ async function displayArtworks(data, load) {
       shuffledObjectIDs = shuffleArray(data.objectIDs);
       //MaxnumDisplayed = 24;
       artworksCount = 0;
-      console.log(shuffledObjectIDs);
     } else {
       //remove already shown results from the array
       shuffledObjectIDs = shuffledObjectIDs.slice(artworksCount);
-      console.log(shuffledObjectIDs);
     }
 
     for (const artworkID of shuffledObjectIDs) {
@@ -125,7 +137,7 @@ async function displayArtworks(data, load) {
 
       try {
         //fetch each artwork info
-        const response = await fetch(`${apiUrl}/${artworkID}`);
+        const response = await fetch(`${apiUrlObj}/${artworkID}`);
         const artworkData = await response.json();
 
         artworksCount++;
@@ -367,11 +379,18 @@ function filterArtworks() {
   //validateForm();
   const filterSelect = document.getElementById("filter-department");
   const selectedDepartment = filterSelect.value;
-  console.log(selectedDepartment);
-
-  fetchArtworks(selectedDepartment, true)
+  departmentKey = selectedDepartment;
+  fetchArtworks(selectedDepartment, true, searchKey)
     .then(() => attachArtworkClickListeners())
     .catch((error) => console.error("Error filtering artworks:", error));
+}
+
+function searchArtworks() {
+  const searchSelect = document.getElementById('searchbarId').value;
+  searchKey = searchSelect;
+  fetchArtworks(departmentKey, true, searchSelect)
+  .then(() => attachArtworkClickListeners())
+  .catch((error) => console.error("Error searching artworks:", error));
 }
 
 /*function validateForm() {

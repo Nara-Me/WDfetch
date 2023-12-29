@@ -15,6 +15,11 @@
     <header>
       <h1>Metropolitan Museum API</h1>
 
+      <div id="search-bar">
+          <input id="searchbarId" type="text" placeholder="Titles" maxlength="300" name="search">
+          <button onclick="searchArtworks()">Search</button>
+      </div>
+
       <div id="sorting-options">
         <label>Sort By:</label>
         <select id="sort-select">
@@ -30,7 +35,7 @@
       <div id="filter-options">
         <label>Filter By Department:</label>
         <select id="filter-department">
-          <option value="All">All Departments</option>
+          <option value="">All Departments</option>
           <option value="1">American Wing</option>
           <option value="3">Ancient Near Eastern Art</option>
           <option value="4">Arms and Armor</option>
@@ -125,7 +130,7 @@
     </div>
 
     <div id="show-more">
-      <button onclick="fetchArtworks()">Show more</button>
+      <button onclick="fetchArtworks('', false, '')">Show more</button>
     </div>
   </body>
 </html>
