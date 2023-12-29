@@ -10,11 +10,14 @@ let MaxnumDisplayed = 24; //36 //48
 
 let shuffledObjectIDs;
 
-let defaultShuffle = 1,
-  lastShuffleValue = "";
+let defaultShuffle = 1, lastShuffleValue = "";
 
 //count numbers of artworks gone through (with and without images)
 let artworksCount = 0;
+
+//Total number of artworks found
+const totalElement = document.createElement("p");
+document.getElementById("total").appendChild(totalElement);
 
 //show loading screen
 function showLoadingScreen(load) {
@@ -59,25 +62,29 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
   return new Promise(async (resolve, reject) => {
     let response = null;
     try {
+      const artwork = document.getElementById("artworks");
       //department filter if provided
       if (departmentFilter) {
-        const artwork = document.getElementById("artworks");
         artwork.innerHTML = "";
         if (departmentFilter != "All") {
           response = await fetch(`${apiUrl}?departmentIds=${departmentFilter}`);
         } else {response = await fetch(apiUrl);}
+
+      //search filter if provided
       } else if (search) {
         console.log("Mamma Mia");
+        artwork.innerHTML = "";
         response = await fetch(apiUrlSearch + search);
+
+      //no filter
       } else {
         response = await fetch(apiUrl);
       }
 
       const data = await response.json();
-      const totalElement = document.createElement("p");
-      totalElement.innerHTML = `Total artworks found: ${data.total}`;
-      document.getElementById("total").appendChild(totalElement);
-      //totalElement.classList.add("artwork");
+      if (load) {
+        totalElement.innerHTML = `Total artworks found: ${data.total}`;
+      }
       await displayArtworks(data, load); //finish before moving on
       //await displayArtworks(data, departmentFilter); //finish before moving on
       attachArtworkClickListeners();
