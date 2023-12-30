@@ -71,6 +71,10 @@ span.title {
   font-kerning: normal;
 }
 
+#artworks {
+  min-height: 50vh;
+}
+
 #artworks img {
   max-width: var(--column-size);
   max-height: 550px;
@@ -160,4 +164,37 @@ span.title {
 #show-more {
   display: flex;
   justify-content: center;
+}
+
+#show-more button {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 10px;
+  margin: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+#show-more button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+footer {
+  position: relative;
+  bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  z-index: 20;
+}
+
+footer p {
+  margin: 0 40px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }

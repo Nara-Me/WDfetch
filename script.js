@@ -3,17 +3,20 @@ console.clear();
 const apiUrlObj =
   "https://collectionapi.metmuseum.org/public/collection/v1/objects";
 
-const apiUrl =
-  "https://collectionapi.metmuseum.org/public/collection/v1/";
+const apiUrl = "https://collectionapi.metmuseum.org/public/collection/v1/";
 
 const apiUrlSearch =
   "https://collectionapi.metmuseum.org/public/collection/v1/search?title=true&hasImages=true";
 
 let MaxnumDisplayed = 24; //36 //48
 
-let shuffledObjectIDs, defaultShuffle = 1, lastShuffleValue = "", artworksCount = 0;
+let shuffledObjectIDs,
+  defaultShuffle = 1,
+  lastShuffleValue = "",
+  artworksCount = 0;
 
-let departmentKey = "", searchKey = "";
+let departmentKey = "",
+  searchKey = "";
 
 //Total number of artworks found
 const totalElement = document.createElement("p");
@@ -30,6 +33,9 @@ function showLoadingScreen(load) {
     //replace fetch more atworks button with loading text
     const loadingText = document.getElementById("show-more");
     loadingText.innerHTML = "Loading...";
+    loadingText.style.color = "white";
+    loadingText.style.fontSize = "1.3em";
+    loadingText.style.margin = "20px";
     //MaxnumDisplayed = 12;
   }
 
@@ -65,29 +71,27 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
       const artwork = document.getElementById("artworks");
       //department and search filter if provided
       if (departmentFilter && search) {
-        console.log("its right");
         artwork.innerHTML = "";
-        if (departmentFilter != "All") {
-          response = await fetch(`${apiUrl}search?departmentId=${departmentFilter}&title=true&hasImages=true&q=${search}`);
-        } else {
-          response = await fetch(apiUrlSearch `&q=` + search);
-        }
-      //department  filter if provided
+        response = await fetch(
+          `${apiUrl}search?departmentId=${departmentFilter}&title=true&hasImages=true&q=${search}`
+        );
+        //department filter if provided
       } else if (departmentFilter) {
-        console.log(departmentKey);
         artwork.innerHTML = "";
         if (departmentFilter != "All") {
-          response = await fetch(`${apiUrlObj}?departmentIds=${departmentFilter}`);
+          response = await fetch(
+            `${apiUrlObj}?departmentIds=${departmentFilter}`
+          );
         } else {
           response = await fetch(apiUrlObj);
         }
-      //search filter if provided
+        //search filter if provided
       } else if (search) {
         console.log(search);
         artwork.innerHTML = "";
         response = await fetch(`${apiUrlSearch}&q=${search}`);
 
-      //no filter
+        //no filter
       } else {
         response = await fetch(apiUrlObj);
       }
@@ -99,8 +103,7 @@ async function fetchArtworks(departmentFilter = "", load, search = "") {
         totalElement.innerHTML = `Total artworks found: ${data.total}`;
       }
       await displayArtworks(data, load); //finish before moving on
-      //await displayArtworks(data, departmentFilter); //finish before moving on
-      attachArtworkClickListeners();
+      attachArtworkClickListeners(); //attach popup to each artwork
       sortArtworks(); //sort after fetching more artworks
       hideLoadingScreen();
       resolve();
@@ -119,10 +122,10 @@ async function displayArtworks(data, load) {
   // check if the response contains data
   if (data && data.objectIDs) {
     let displayedArtworksCount = 0;
+
     //randomize artwork order at load
     if (load) {
       shuffledObjectIDs = shuffleArray(data.objectIDs);
-      //MaxnumDisplayed = 24;
       artworksCount = 0;
     } else {
       //remove already shown results from the array
@@ -142,19 +145,15 @@ async function displayArtworks(data, load) {
         artworksCount++;
         //only show artworks with images
         if (artworkData.primaryImage || artworkData.primaryImageSmall) {
-          /*if (
-            artworkData.department == departmentFilter ||
-            departmentFilter == "All" ||
-            departmentFilter == ""
-          ) {*/
           const artworkElement = createArtworkElement(artworkData);
+
+          //defines default sorting arrangement
           defaultShuffle += 10;
-          artworkElement.setAttribute("number", defaultShuffle); //defines default sorting arrangement
+          artworkElement.setAttribute("number", defaultShuffle);
+          
           artworksContainer.appendChild(artworkElement);
 
-          //console.log("n");
           displayedArtworksCount++;
-          //}
         }
       } catch (error) {
         console.error("Error fetching artwork details:", error);
@@ -192,7 +191,7 @@ function sortArtworks(check) {
   const artworks = Array.from(artworksContainer.children);
 
   //compare and sort artworks
-  //date strings are not reliable enough for int sorting
+  //date strings are not reliable enough for int sorting (counting)
   artworks.sort((a, b) => {
     const keyA = getSortKey(a, selectedOption);
     const keyB = getSortKey(b, selectedOption);
@@ -350,7 +349,6 @@ function attachArtworkClickListeners() {
   const artworks = Array.from(artworksContainer.children);
 
   artworks.forEach((artwork) => {
-    //medium, department, culture, country
     artwork.addEventListener("click", () => {
       const artworkData = {
         title: artwork.getAttribute("data-title"),
@@ -369,57 +367,23 @@ function attachArtworkClickListeners() {
 }
 
 //fetch, display and eventListeners while loading
-(async () => {
-  await fetchArtworks("", true);
-  //attachArtworkClickListeners();
-})();
+fetchArtworks("", true);
 
+//update department filter
 function filterArtworks() {
-  //validateForm();
   const filterSelect = document.getElementById("filter-department");
   const selectedDepartment = filterSelect.value;
-  departmentKey = selectedDepartment;
+  departmentKey = selectedDepartment; //save value for future uses
   fetchArtworks(selectedDepartment, true, searchKey)
-    .then(() => attachArtworkClickListeners())
+    //.then(() => attachArtworkClickListeners())
     .catch((error) => console.error("Error filtering artworks:", error));
 }
 
+//update search filter
 function searchArtworks() {
-  const searchSelect = document.getElementById('searchbarId').value;
-  searchKey = searchSelect;
+  const searchSelect = document.getElementById("searchbarId").value;
+  searchKey = searchSelect; //save value for future uses
   fetchArtworks(departmentKey, true, searchSelect)
-  .then(() => attachArtworkClickListeners())
-  .catch((error) => console.error("Error searching artworks:", error));
+    //.then(() => attachArtworkClickListeners())
+    .catch((error) => console.error("Error searching artworks:", error));
 }
-
-/*function validateForm() {
-  //didn't work :(
-  let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  let checks = Array.from(checkboxes).map(function (checkbox) {
-    console.log(checkbox.value);
-    return checkbox.value;
-  });
-  //return false;
-}*/
-
-/*
-1 "The American Wing"
-3 "Ancient Near Eastern Art"
-4 "Arms and Armor"
-6 "Asian Art"
-8 "Costume Institute"
-7 "The Cloisters"
-9 "Drawings and Prints"
-10 "Egyptian Art"
-11 "European Paintings"
-12 "European Sculpture and Decorative Arts"
-13 "Greek and Roman Art"
-14 "Islamic Art"
-16 "The Libraries"
-17 "Medieval Art"
-5 "The Michael C. Rockefeller Wing"
-21 "Modern and Contemporary Art"
-18 "Musical Instruments"
-19 "Photographs"
-15 "Robert Lehman Collection"
-*/

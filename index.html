@@ -13,7 +13,7 @@
   </head>
   <body>
     <header>
-      <h1>Metropolitan Museum API</h1>
+      <h1><a href="https://www.metmuseum.org/">Metropolitan Museum API</a></h1>
 
       <div id="search-bar">
           <input id="searchbarId" type="text" placeholder="Titles" maxlength="300" name="search">
@@ -21,19 +21,19 @@
       </div>
 
       <div id="sorting-options">
-        <label>Sort By:</label>
+        <label>Sort By:</label><br>
         <select id="sort-select">
           <option value="no">Don't sort</option>
           <option value="title">Title (!-A-Z)</option>
           <option value="title-reverse">Title (Z-A-!)</option>
           <option value="date">Date (Asc moderately)</option>
           <option value="date-reverse">Date (Desc moderately)</option>
-        </select>
+        </select><br>
         <button value="filter" onclick="sortArtworks(this.value)">Sort</button>
       </div>
 
       <div id="filter-options">
-        <label>Filter By Department:</label>
+        <label>Filter By Department:</label><br>
         <select id="filter-department">
           <option value="">All Departments</option>
           <option value="1">American Wing</option>
@@ -58,53 +58,6 @@
         <button onclick="filterArtworks()">Filter</button>
       </div>
     </header>
-
-    <!--<form>
-      <div id="filter-department">
-        <label>Filter By Department:</label><br>
-        <input type="checkbox" value="All" />
-        <label>All Departments</label><br>
-        <input type="checkbox" value="1" />
-        <label>American Wing</label>
-        <input type="checkbox" value="3" />
-        <label>Ancient Near Eastern Art</label>
-        <input type="checkbox" value="4" />
-        <label>Arms and Armor</label>
-        <input type="checkbox" value="6" />
-        <label>Asian Art</label>
-        <input type="checkbox" value="8" />
-        <label>Costume Institute</label>
-        <input type="checkbox" value="7" />
-        <label>Cloisters</label>
-        <input type="checkbox" value="9" />
-        <label>Drawings and Prints</label>
-        <input type="checkbox" value="10" />
-        <label>Egyptian Art</label>
-        <input type="checkbox" value="11" />
-        <label>European Paintings</label>
-        <input type="checkbox" value="12" />
-        <label>European Sculpture and Decorative Arts</label>
-        <input type="checkbox" value="13" />
-        <label>Greek and Roman Art</label>
-        <input type="checkbox" value="14" />
-        <label>Islamic Art</label>
-        <input type="checkbox" value="16" />
-        <label>Libraries</label>
-        <input type="checkbox" value="17" />
-        <label>Medieval Art</label>
-        <input type="checkbox" value="5" />
-        <label>Michael C. Rockefeller Wing</label>
-        <input type="checkbox" value="21" />
-        <label>Modern and Contemporary Art</label>
-        <input type="checkbox" value="18" />
-        <label>Musical Instruments</label>
-        <input type="checkbox" value="19" />
-        <label>Photographs</label>
-        <input type="checkbox" value="15" />
-        <label>Robert Lehman Collection</label>
-      </div>
-        <button onclick="filterArtworks()">Filter</button>
-    </form>-->
 
     <div id="loading-screen">
       <p>Loading...</p>
@@ -132,5 +85,11 @@
     <div id="show-more">
       <button onclick="fetchArtworks('', false, '')">Show more</button>
     </div>
+
+    <footer>
+      <p>All information and images belong to the Metropolitan Museum of Art<br>
+        <a href="https://www.metmuseum.org/">Metropolitan Museum of Art</a><br>
+      <a href="https://metmuseum.github.io/">Metropolitan Museum of Art API</a>
+    </footer>
   </body>
 </html>
