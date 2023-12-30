@@ -14,9 +14,11 @@
   <body>
     <header>
       <h1><a href="https://www.metmuseum.org/">Metropolitan Museum API</a></h1>
-
-      <div id="search-bar">
-          <input id="searchbarId" type="text" placeholder="Titles" maxlength="300" name="search">
+      
+      <div class="filters">
+        <div id="search-bar">
+          <label>Search By Title:</label><br>
+          <input id="searchbarId" type="text" placeholder="Titles" maxlength="200" name="search">
           <button onclick="searchArtworks()">Search</button>
       </div>
 
@@ -28,7 +30,7 @@
           <option value="title-reverse">Title (Z-A-!)</option>
           <option value="date">Date (Asc moderately)</option>
           <option value="date-reverse">Date (Desc moderately)</option>
-        </select><br>
+        </select>
         <button value="filter" onclick="sortArtworks(this.value)">Sort</button>
       </div>
 
@@ -57,6 +59,7 @@
         </select>
         <button onclick="filterArtworks()">Filter</button>
       </div>
+    </div>
     </header>
 
     <div id="loading-screen">
@@ -88,8 +91,8 @@
 
     <footer>
       <p>All information and images belong to the Metropolitan Museum of Art<br>
-        <a href="https://www.metmuseum.org/">Metropolitan Museum of Art</a><br>
-      <a href="https://metmuseum.github.io/">Metropolitan Museum of Art API</a>
+        <a href="https://www.metmuseum.org/"><i>Metropolitan Museum of Art</i></a><br>
+      <a href="https://metmuseum.github.io/"><i>Metropolitan Museum of Art API</i></a>
     </footer>
   </body>
 </html>

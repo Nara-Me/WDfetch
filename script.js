@@ -249,9 +249,7 @@ function createArtworkElement(artworkData) {
       infoElement = document.createElement("p");
       if (label === "Date") {
         infoElement.classList.add("date");
-        infoElement.style.display = "none";
       } else if (label === "Title") {
-        //infoElement.style.display = "none";
         infoElement.classList.add("title");
       }
       infoElement.innerHTML = `<strong>${label}:</strong> <span class="${label.toLowerCase()}">${value}</span>`;
@@ -274,6 +272,7 @@ function createArtworkElement(artworkData) {
   //addInfo("Date", artworkData.objectDate);
   //addInfo("ID", artworkData.objectID);
 
+  //set artwork info for popup
   artworkElement.setAttribute("data-title", artworkData.title);
   artworkElement.setAttribute("data-image", artworkData.primaryImage);
   artworkElement.setAttribute(

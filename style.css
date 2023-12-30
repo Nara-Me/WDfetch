@@ -10,8 +10,9 @@ html, body {
 }
 
 header {
+  display: flex;
   width: 100%;
-  display: inline-flex;
+  padding: 5px 0;
   top: 0;
   position: sticky;
   background: rgba(255, 255, 255, 0.7);
@@ -19,8 +20,79 @@ header {
 }
 
 header h1 {
-  margin: 0;
-  padding: 10px 5px;
+  margin: 0 20px;
+  padding: 10px 0;
+}
+
+.filters {
+  display: flex;
+  margin: 0 20px;
+  font-size: 1.1em;
+  top: 15px;
+  position: relative;
+}
+
+@media (max-width:980px)  {
+  header {
+    display: block;
+    width: 100%;
+    padding: 5px 0;
+    top: 0;
+    position: sticky;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 10;
+  }
+
+  .filters {
+    display: block;
+    margin: 0 20px;
+    top: 0;
+    font-size: 1.1em;
+  }
+}
+
+button {
+  font-family: inherit;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+input {
+  font-family: inherit;
+  font-size: 1em;
+  border: none;
+  font-weight: bold;
+
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+}
+
+select {
+  font-family: inherit;
+  font-size: 1em;
+  border: none;
+  font-weight: bold;
+
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+select option{
+  font-family: inherit;
+  font-size: 1em;
+  border: none;
+  font-weight: bold;
+}
+
+.filters div {
+  margin-right: 30px;
+  font-family: 'Zen Kurenaido';
 }
 
 #total {
@@ -179,7 +251,14 @@ span.title {
 
 #show-more button:hover {
   background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+button:disabled {
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 footer {
